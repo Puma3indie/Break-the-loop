@@ -1,0 +1,57 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Lever : MonoBehaviour
+{
+
+    public Transform player;
+    public bool isOn;
+    public Animator anim;
+    public float distance;
+    public GameObject textpopup;
+    bool leftarea;
+    private AudioSource sound;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+        sound = GetComponent<AudioSource>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        anim.SetBool("isbuttonOn", isOn);
+        if(Vector3.Distance(transform.position, player.position) <= distance)
+        {
+            leftarea = false;
+            if (textpopup != null)
+            {
+                textpopup.SetActive(true);
+            }
+            if (Input.GetButtonDown("Fire1"))
+            {
+                sound.Play();
+                isOn = !isOn;
+            }
+        }
+        else
+        {
+
+            if (leftarea == false)
+            {
+                if (textpopup != null)
+                {
+                    textpopup.SetActive(false);
+                }
+                leftarea = true;
+            }
+
+
+        }
+
+
+    }
+}
