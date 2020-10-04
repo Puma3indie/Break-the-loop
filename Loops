@@ -1,0 +1,50 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class loops : MonoBehaviour
+{
+
+    public GameObject[] loop;
+    public float starttime;
+    float currenttime;
+    int i;
+    public Animator death;
+    public float countdown;
+    public Levels Levels;
+    // Start is called before the first frame update
+    void Start()
+    {
+        currenttime = starttime;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (i == loop.Length)
+        {
+            death.SetBool("end", true);
+            countdown -= Time.deltaTime;
+        }
+        else
+        {
+            if (!Levels.finished)
+            {
+                currenttime -= Time.deltaTime;
+                if (currenttime <= 0)
+                {
+                    loop[i].SetActive(true);
+                    i++;
+                    currenttime = starttime;
+                }
+            }
+        }
+        
+        if (countdown <= 0)
+        {
+            SceneManager.LoadScene("Game");
+        }
+    }
+}
