@@ -1,0 +1,94 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class Laptop : MonoBehaviour
+{
+    public Transform player;
+    public bool isOn;
+    
+    public float distance;
+    public GameObject textpopup;
+    bool leftarea;
+    public GameObject screen;
+    public TextMeshProUGUI text;
+    public int i;
+    public string[] strings;
+    public float level;
+    public Levels levels;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        screen.SetActive(false);
+        isOn = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        level = levels.levels;
+        if (Vector3.Distance(transform.position, player.position) <= distance)
+        {
+            leftarea = false;
+            if (textpopup != null)
+            {
+                textpopup.SetActive(true);
+            }
+            if (Input.GetButtonDown("Fire1"))
+            {
+                isOn = true;
+                screen.SetActive(true);
+                
+            }
+            text.text = strings[i];
+            if (isOn)
+            {
+                if (Input.GetKeyDown(KeyCode.Tab))
+                {
+                    screen.SetActive(false);
+                    isOn = false;
+                }
+                if (Input.GetKeyDown(KeyCode.LeftArrow))
+                {
+                    if (i > 0)
+                    {
+                        i -= 1;
+                    }
+                }
+                if (Input.GetKeyDown(KeyCode.RightArrow))
+                {
+                    if (i < strings.Length - 1 && level > i)
+                    {
+                        i += 1;
+                    }
+                }
+            }
+            
+        }
+        else
+        {
+
+            if (leftarea == false)
+            {
+                if (textpopup != null)
+                {
+                    textpopup.SetActive(false);
+                }
+                leftarea = true;
+            }
+
+
+        }
+
+        if (isOn)
+        {
+            Cursor.lockState = CursorLockMode.None;
+        }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+        }
+    }
+}
