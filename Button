@@ -1,0 +1,64 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Button : MonoBehaviour
+{
+
+    public Transform player;
+    public bool isOn;
+    public Animator anim;
+    public float distance;
+    public GameObject textpopup;
+    public float timer;
+    private float timeleft;
+    bool leftarea;
+    public AudioSource sound;
+    // Start is called before the first frame update
+    void Start()
+    {
+        anim = GetComponent<Animator>();
+        sound.GetComponent<AudioSource>();
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        anim.SetBool("isOn", isOn);
+        if (Vector3.Distance(transform.position, player.position) <= distance)
+        {
+            leftarea = false;
+            if (textpopup != null)
+            {
+                textpopup.SetActive(true);
+            }
+            if (Input.GetButtonDown("Fire1"))
+            {
+                sound.Play();
+                isOn = true;
+                timeleft = timer;
+            }
+        }
+        else
+        {
+            if (leftarea == false)
+            {
+                if (textpopup != null)
+                {
+                    textpopup.SetActive(false);
+                }
+                leftarea = true;
+            }
+
+        }
+
+        
+
+        if(timeleft<= 0)
+        {
+            isOn = false;
+        }
+        timeleft -= Time.deltaTime;
+    }
+}
