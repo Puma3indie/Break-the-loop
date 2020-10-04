@@ -1,0 +1,83 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public class Levels : MonoBehaviour
+{
+    
+    public Button FirstButton;
+    public Lever FirstLever;
+    public float levels;
+    public Animator firstdoor;
+    public Lever[] secondLevers;
+    bool isready;
+    int i;
+    public Button SecondButton;
+    public Animator seconddoor;
+    public Lever end;
+    public float countdown;
+    public Animator endscreen;
+    public GameObject interact;
+    public bool finished;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+       
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (levels <= 1) { 
+        if (FirstLever.isOn)
+        {
+            if (FirstButton.isOn)
+            {
+                levels++;
+                    firstdoor.SetBool("Level Complete", true);
+                }
+        }
+    }
+    if(levels<=2 && levels >= 2)
+        {
+            if (secondLevers[i].isOn && i+1<secondLevers.Length)
+            {
+                i++;
+            }
+            
+            if(!secondLevers[i].isOn)
+            {
+                for (int o = i; o < secondLevers.Length; o++)
+                {
+                    secondLevers[o].isOn = false;
+                }
+            }
+            if(i +1 >= secondLevers.Length)
+            {
+                if (SecondButton.isOn)
+                {
+                    levels++;
+                    seconddoor.SetBool("Level Complete", true);
+                }
+            }
+        }
+        countdown -= Time.deltaTime;
+        if (end.isOn)
+        {
+            endscreen.SetBool("end", true);
+            Destroy(interact);
+            finished = true;
+        }
+        
+        else
+        {
+            countdown = 10;
+        }
+        if(countdown <= 0)
+        {
+            SceneManager.LoadScene("Game");
+        }
+    }
+}
